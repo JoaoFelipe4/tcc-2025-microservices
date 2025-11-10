@@ -1,0 +1,74 @@
+{
+  "family": "medical-auth-service",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/ecsTaskRole",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "containerDefinitions": [
+    {
+      "name": "auth-service",
+      "image": "<YOUR_AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/medical-auth-service:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3001,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "PORT",
+          "value": "3001"
+        },
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "DOCTORS_SERVICE_URL",
+          "value": "http://medical-doctors-service.local:3002"
+        },
+        {
+          "name": "PATIENTS_SERVICE_URL",
+          "value": "http://medical-patients-service.local:3003"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "MONGODB_URI",
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:<YOUR_AWS_ACCOUNT_ID>:secret:medical/mongodb-uri"
+        },
+        {
+          "name": "JWT_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:<YOUR_AWS_ACCOUNT_ID>:secret:medical/jwt-secret"
+        },
+        {
+          "name": "JWT_EXPIRE",
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:<YOUR_AWS_ACCOUNT_ID>:secret:medical/jwt-expire"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/medical-auth-service",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001/health || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      }
+    }
+  ]
+}

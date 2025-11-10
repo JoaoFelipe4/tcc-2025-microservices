@@ -1,0 +1,75 @@
+services:
+  # Auth Service (Port 3001)
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      MONGODB_URI: ${MONGODB_URI_AUTH}
+      JWT_SECRET: ${JWT_SECRET:-your_super_secret_jwt_key_change_in_production}
+      JWT_EXPIRE: ${JWT_EXPIRE:-7d}
+      NODE_ENV: development
+      DOCTORS_SERVICE_URL: http://doctors-service:3002
+      PATIENTS_SERVICE_URL: http://patients-service:3003
+    networks:
+      - medical-network
+    volumes:
+      - ./auth-service:/app
+      - /app/node_modules
+
+  # Doctors Service (Port 3002)
+  doctors-service:
+    build:
+      context: ./doctors-service
+      dockerfile: Dockerfile
+    container_name: doctors-service
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      MONGODB_URI: ${MONGODB_URI_DOCTORS}
+      NODE_ENV: development
+      AUTH_SERVICE_URL: http://auth-service:3001
+      PATIENTS_SERVICE_URL: http://patients-service:3003
+    depends_on:
+      auth-service:
+        condition: service_started
+    networks:
+      - medical-network
+    volumes:
+      - ./doctors-service:/app
+      - /app/node_modules
+
+  # Patients Service (Port 3003)
+  patients-service:
+    build:
+      context: ./patients-service
+      dockerfile: Dockerfile
+    container_name: patients-service
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      MONGODB_URI: ${MONGODB_URI_PATIENTS}
+      NODE_ENV: development
+      AUTH_SERVICE_URL: http://auth-service:3001
+      DOCTORS_SERVICE_URL: http://doctors-service:3002
+    depends_on:
+      auth-service:
+        condition: service_started
+    networks:
+      - medical-network
+    volumes:
+      - ./patients-service:/app
+      - /app/node_modules
+
+networks:
+  medical-network:
+    driver: bridge
