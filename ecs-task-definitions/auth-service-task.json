@@ -42,15 +42,15 @@
       "secrets": [
         {
           "name": "MONGODB_URI",
-          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/mongodb-uri"
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/mongodb-uri-patients-KtldXa"
         },
         {
           "name": "JWT_SECRET",
-          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/jwt-secret"
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/jwt-secret-vXcvQ3"
         },
         {
           "name": "JWT_EXPIRE",
-          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/jwt-expire"
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/jwt-expire-gFzqGm"
         }
       ],
       "logConfiguration": {
