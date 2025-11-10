@@ -14,7 +14,7 @@ RUN curl -O https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copy application code
 COPY . .
