@@ -4,8 +4,8 @@
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "256",
   "memory": "512",
-  "executionRoleArn": "arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/ecsTaskExecutionRole",
-  "taskRoleArn": "arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/ecsTaskRole",
+  "executionRoleArn": "arn:aws:iam::364337333396:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::364337333396:role/ecsTaskRole",
   "runtimePlatform": {
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
@@ -13,7 +13,7 @@
   "containerDefinitions": [
     {
       "name": "auth-service",
-      "image": "<YOUR_AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/medical-auth-service:latest",
+      "image": "364337333396.dkr.ecr.us-east-2.amazonaws.com/medical-auth-service:latest",
       "essential": true,
       "portMappings": [
         {
@@ -42,15 +42,15 @@
       "secrets": [
         {
           "name": "MONGODB_URI",
-          "valueFrom": "arn:aws:secretsmanager:us-east-2:<YOUR_AWS_ACCOUNT_ID>:secret:medical/mongodb-uri"
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/mongodb-uri"
         },
         {
           "name": "JWT_SECRET",
-          "valueFrom": "arn:aws:secretsmanager:us-east-2:<YOUR_AWS_ACCOUNT_ID>:secret:medical/jwt-secret"
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/jwt-secret"
         },
         {
           "name": "JWT_EXPIRE",
-          "valueFrom": "arn:aws:secretsmanager:us-east-2:<YOUR_AWS_ACCOUNT_ID>:secret:medical/jwt-expire"
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/jwt-expire"
         }
       ],
       "logConfiguration": {
