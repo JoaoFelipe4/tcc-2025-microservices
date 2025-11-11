@@ -58,5 +58,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
+  console.log(process.env.MONGODB_URI);
   console.log(`Patients Service running on port ${PORT}`);
 });
