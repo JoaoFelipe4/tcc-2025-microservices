@@ -4,8 +4,8 @@
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
   "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::364337333396:role/ecsTaskExecutionRole",
-  "taskRoleArn": "arn:aws:iam::364337333396:role/ecsTaskRole",
+  "executionRoleArn": "arn:aws:iam::337909750538:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::337909750538:role/ecsTaskRole",
   "containerDefinitions": [
     {
       "name": "mongodb",
@@ -26,7 +26,7 @@
       "secrets": [
         {
           "name": "MONGO_INITDB_ROOT_PASSWORD",
-          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/mongodb-password"
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:337909750538:secret:medical/mongodb-password"
         }
       ],
       "mountPoints": [
@@ -60,7 +60,7 @@
     {
       "name": "mongodb-data",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-0ee2c2f79ed411964",
+        "fileSystemId": "fs-096c3bd4b2447aa1f",
         "transitEncryption": "ENABLED",
         "authorizationConfig": {
           "iam": "ENABLED"

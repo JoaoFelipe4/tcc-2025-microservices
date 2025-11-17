@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: us-east-2
-  ECS_CLUSTER: medical-microservices-cluster
+  ECS_CLUSTER: tcc-2025-cluster
 
 jobs:
   deploy-auth-service:

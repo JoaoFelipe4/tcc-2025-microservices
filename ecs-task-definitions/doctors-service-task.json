@@ -4,8 +4,8 @@
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "256",
   "memory": "512",
-  "executionRoleArn": "arn:aws:iam::364337333396:role/ecsTaskExecutionRole",
-  "taskRoleArn": "arn:aws:iam::364337333396:role/ecsTaskRole",
+  "executionRoleArn": "arn:aws:iam::337909750538:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::337909750538:role/ecsTaskRole",
   "runtimePlatform": {
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
@@ -13,7 +13,7 @@
   "containerDefinitions": [
     {
       "name": "doctors-service",
-      "image": "364337333396.dkr.ecr.us-east-2.amazonaws.com/medical-doctors-service:latest",
+      "image": "337909750538.dkr.ecr.us-east-2.amazonaws.com/medical-doctors-service:latest",
       "essential": true,
       "portMappings": [
         {
@@ -42,7 +42,7 @@
       "secrets": [
         {
           "name": "MONGODB_URI",
-          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/mongodb-uri-doctors-Zjg5Nc"
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:337909750538:secret:medical/mongodb-uri-doctors-6pfSjI"
         }
       ],
       "logConfiguration": {
