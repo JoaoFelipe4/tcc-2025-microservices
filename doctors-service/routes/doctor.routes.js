@@ -67,14 +67,14 @@ router.get('/', async (req, res) => {
             `${process.env.AUTH_SERVICE_URL}/api/auth/user/${doctor.user}`,
             { timeout: 5000 }
           );
-          return {
-            ...doctor.toObject(),
-            userInfo: userResponse.data.user
-          };
+          const doctorObj = doctor.toObject();
+          // Replace user ObjectId with full user data
+          doctorObj.user = userResponse.data.user;
+          return doctorObj;
         } catch (error) {
           return {
             ...doctor.toObject(),
-            userInfo: null
+            user: null
           };
         }
       })
@@ -106,19 +106,19 @@ router.get('/:id', async (req, res) => {
         `${process.env.AUTH_SERVICE_URL}/api/auth/user/${doctor.user}`,
         { timeout: 5000 }
       );
+      const doctorObj = doctor.toObject();
+      // Replace user ObjectId with full user data
+      doctorObj.user = userResponse.data.user;
       res.json({
         success: true,
-        doctor: {
-          ...doctor.toObject(),
-          userInfo: userResponse.data.user
-        }
+        doctor: doctorObj
       });
     } catch (error) {
       res.json({
         success: true,
         doctor: {
           ...doctor.toObject(),
-          userInfo: null
+          user: null
         }
       });
     }
