@@ -32,11 +32,11 @@
         },
         {
           "name": "AUTH_SERVICE_URL",
-          "value": "http://medical-auth-service.local:3001"
+          "value": "http://auth-service.medical.local:3001"
         },
         {
           "name": "DOCTORS_SERVICE_URL",
-          "value": "http://medical-doctors-service.local:3002"
+          "value": "http://doctors-service.medical.local:3002"
         }
       ],
       "secrets": [

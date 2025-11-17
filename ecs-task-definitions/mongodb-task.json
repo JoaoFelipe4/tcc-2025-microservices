@@ -1,0 +1,71 @@
+{
+  "family": "medical-mongodb",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::364337333396:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::364337333396:role/ecsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "mongodb",
+      "image": "mongo:7.0",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 27017,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "MONGO_INITDB_ROOT_USERNAME",
+          "value": "admin"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "MONGO_INITDB_ROOT_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:us-east-2:364337333396:secret:medical/mongodb-password"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "mongodb-data",
+          "containerPath": "/data/db",
+          "readOnly": false
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/medical-mongodb",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "mongodb"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "mongosh --eval 'db.adminCommand(\"ping\")' --quiet || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 40
+      }
+    }
+  ],
+  "volumes": [
+    {
+      "name": "mongodb-data",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "fs-0ee2c2f79ed411964",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "iam": "ENABLED"
+        }
+      }
+    }
+  ]
+}
